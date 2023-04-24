@@ -24,23 +24,29 @@ export const Timer = ({
   const [time, setTime] = useState(defaultStages.pomodoro.timeValue);
   const [countPomo, setCountPomo] = useState(0);
   const [isRunning, setRunning] = useState(false);
-  const [alarm] = useState(new Audio('/mlg-airhorn.mp3'));
+  const [alarm, setAlarm] = useState<HTMLAudioElement | null>(null);
   // const [openModal, setOpenModal] = useState(false);
   // const [modalYesCallback, setModalYesCallback] = useState<() => void>(() => {});
 
+  useEffect(() => {
+    setAlarm(new Audio('/mlg-airhorn.mp3'));
+  }, []);
+
   const displayTime = secondToMinuteAndSecondString(time);
-  document.title =
-    displayTime +
-    (stage.name === defaultStages.pomodoro.name
-      ? ' - Time to focus!'
-      : ' - Time for a break!');
+  if (typeof window !== 'undefined') {
+    document.title =
+      displayTime +
+      (stage.name === defaultStages.pomodoro.name
+        ? ' - Time to focus!'
+        : ' - Time for a break!');
+  }
 
   useInterval(
     () => {
       setTime((prev) => prev - 1);
       if (time === 0) {
         skipStage();
-        alarm.play();
+        alarm?.play();
       }
     },
     isRunning ? 1000 : null
