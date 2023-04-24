@@ -15,28 +15,31 @@ type Setting = {
 };
 
 const initStorage = () => {
-  if (localStorage.getItem(StorageKey.AUTO_START_BREAK) === null) {
-    localStorage.setItem(StorageKey.AUTO_START_BREAK, JSON.stringify(false));
-  }
-  if (localStorage.getItem(StorageKey.AUTO_START_POMO) === null) {
-    localStorage.setItem(StorageKey.AUTO_START_POMO, JSON.stringify(false));
-  }
-  if (
-    localStorage.getItem(StorageKey.LONG_BREAK_INTERVAL) === null ||
-    JSON.parse(localStorage.getItem(StorageKey.LONG_BREAK_INTERVAL) as string) <
-      1
-  ) {
-    localStorage.setItem(StorageKey.LONG_BREAK_INTERVAL, JSON.stringify(4));
-  }
-  if (localStorage.getItem(StorageKey.STAGES_TIME) === null) {
-    localStorage.setItem(
-      StorageKey.STAGES_TIME,
-      JSON.stringify({
-        longBreak: 15 * 60,
-        pomodoro: 25 * 60,
-        shortBreak: 5 * 60,
-      } as StagesTimeValue)
-    );
+  if (typeof window !== 'undefined') {
+    if (localStorage.getItem(StorageKey.AUTO_START_BREAK) === null) {
+      localStorage.setItem(StorageKey.AUTO_START_BREAK, JSON.stringify(false));
+    }
+    if (localStorage.getItem(StorageKey.AUTO_START_POMO) === null) {
+      localStorage.setItem(StorageKey.AUTO_START_POMO, JSON.stringify(false));
+    }
+    if (
+      localStorage.getItem(StorageKey.LONG_BREAK_INTERVAL) === null ||
+      JSON.parse(
+        localStorage.getItem(StorageKey.LONG_BREAK_INTERVAL) as string
+      ) < 1
+    ) {
+      localStorage.setItem(StorageKey.LONG_BREAK_INTERVAL, JSON.stringify(4));
+    }
+    if (localStorage.getItem(StorageKey.STAGES_TIME) === null) {
+      localStorage.setItem(
+        StorageKey.STAGES_TIME,
+        JSON.stringify({
+          longBreak: 15 * 60,
+          pomodoro: 25 * 60,
+          shortBreak: 5 * 60,
+        } as StagesTimeValue)
+      );
+    }
   }
 };
 initStorage();
@@ -205,7 +208,7 @@ export default function Home() {
                 <div className='mb-6 mt-5 w-full flex justify-between'>
                   <div className='max-w-[25%]'>
                     <label
-                      for='pomo'
+                      htmlFor='pomo'
                       className='block mb-2 text-lg font-medium text-gray-500 '
                     >
                       Pomodoro
@@ -223,7 +226,7 @@ export default function Home() {
                   </div>
                   <div className='max-w-[25%]'>
                     <label
-                      for='short'
+                      htmlFor='short'
                       className='block mb-2 text-lg font-medium text-gray-500 '
                     >
                       Short Break
@@ -241,7 +244,7 @@ export default function Home() {
                   </div>
                   <div className='max-w-[25%]'>
                     <label
-                      for='long'
+                      htmlFor='long'
                       className='block mb-2 text-lg font-medium text-gray-500 '
                     >
                       Long Break
